@@ -2,6 +2,7 @@ import dotenv from "dotenv-flow";
 import express from "express";
 import ExpressWs from "express-ws";
 import path from "path";
+import { generateSyncToken } from "./sync";
 import type { CallStatus } from "./twilio-types";
 
 dotenv.config();
@@ -44,18 +45,10 @@ app.use("/incoming-call", async (req, res) => {
       `);
 });
 
-app.ws("/conversation-relay", (ws) => {
-  console.log("incoming websocket");
+app.post("/call-status-update", async (req, res) => {
+  const status = req.body.CallStatus as CallStatus;
 
-  ws.on("message", (data) => {
-    const msg = JSON.parse(data.toString());
-
-    console.log(msg);
-  });
-});
-
-app.use("/connect-action", async (req, res) => {
-  console.log(`/connect-action `, req.body);
+  console.log(`/call-status-update ${status}`);
 
   res.status(200).send();
 });
@@ -73,12 +66,11 @@ app.ws("/media-stream/:callSid", (ws) => {
   });
 });
 
-app.post("/call-status-update", async (req, res) => {
-  const status = req.body.CallStatus as CallStatus;
-
-  console.log(`/call-status-update ${status}`);
-
-  res.status(200).send();
+/****************************************************
+ Sync 
+****************************************************/
+app.use("/sync/:identity", async (req, res) => {
+  res.send(generateSyncToken(req.params.identity ?? "user"));
 });
 
 /****************************************************
