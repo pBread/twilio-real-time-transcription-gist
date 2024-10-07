@@ -4,7 +4,7 @@ import ExpressWs from "express-ws";
 
 dotenv.config();
 
-const { HOSTNAME } = process.env;
+const HOSTNAME = process.env.HOSTNAME as string;
 
 const { app } = ExpressWs(express());
 app.use(express.urlencoded({ extended: true })).use(express.json());
