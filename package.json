@@ -2,7 +2,7 @@
   "author": "https://github.com/pBread",
   "name": "twilio-real-time-transcription",
   "scripts": {
-    "dev": ""
+    "dev": "nodemon"
   },
   "version": "1.0.0",
   "dependencies": {
