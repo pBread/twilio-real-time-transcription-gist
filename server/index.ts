@@ -38,20 +38,6 @@ app.use("/incoming-call", async (req, res) => {
       `);
 });
 
-app.post("/call-status-update", async (req, res) => {
-  const status = req.body.CallStatus as CallStatus;
-
-  console.log(`/call-status-update ${status}`);
-
-  res.status(200).send();
-});
-
-app.post("/primary-handler-fails", async (req, res) => {
-  console.log(`/primary-handler-fails`, req.body);
-
-  res.status(200).send();
-});
-
 // a websocket is established simply to keep the call open
 // in a real implementation, you would connect the caller to an agent or whatever
 app.ws("/media-stream/:callSid", (ws) => {
@@ -65,6 +51,17 @@ app.ws("/media-stream/:callSid", (ws) => {
   });
 });
 
+app.post("/call-status-update", async (req, res) => {
+  const status = req.body.CallStatus as CallStatus;
+
+  console.log(`/call-status-update ${status}`);
+
+  res.status(200).send();
+});
+
+/****************************************************
+ Serve UI
+****************************************************/
 app.use(express.static(path.join(__dirname, "../", "ui")));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "ui", "index.html"));
