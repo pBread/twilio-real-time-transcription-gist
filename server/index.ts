@@ -1,8 +1,8 @@
 import dotenv from "dotenv-flow";
 import express from "express";
 import ExpressWs from "express-ws";
-import type { CallStatus } from "./twilio-types";
 import path from "path";
+import type { CallStatus } from "./twilio-types";
 
 dotenv.config();
 
