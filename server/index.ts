@@ -27,7 +27,12 @@ app.use("/incoming-call", async (req, res) => {
   res.end(`
       <Response>
         <Start>
-          <Transcription track="both_tracks" statusCallbackUrl="https://${process.env.HOSTNAME}/transcript-status-callback" name="real-time-transcript" > </Transcription>
+          <Transcription 
+            track="both_tracks" 
+            statusCallbackUrl="https://${process.env.HOSTNAME}/transcript-status-callback" 
+            name="real-time-transcript" 
+            partialResults="true"
+          />
         </Start>
         
         <Say> Hello, this is a real-time transcription demo. Please speak </Say>
