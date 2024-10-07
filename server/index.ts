@@ -2,6 +2,7 @@ import dotenv from "dotenv-flow";
 import express from "express";
 import ExpressWs from "express-ws";
 import type { CallStatus } from "./twilio-types";
+import path from "path";
 
 dotenv.config();
 
@@ -62,6 +63,11 @@ app.ws("/media-stream/:callSid", (ws) => {
     if (msg.event === "media") return;
     console.log(`media stream event: ${msg.event}`);
   });
+});
+
+app.use(express.static(path.join(__dirname, "../", "ui")));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "ui", "index.html"));
 });
 
 /****************************************************
