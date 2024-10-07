@@ -30,7 +30,7 @@ app.use("/incoming-call", async (req, res) => {
         <Start>
           <Transcription
             track="both_tracks"
-            statusCallbackUrl="https://${process.env.HOSTNAME}/transcript-status-callback"
+            statusCallbackUrl="https://${HOSTNAME}/transcript-status-callback"
             name="real-time-transcript"
             partialResults="true"
           />
@@ -38,7 +38,7 @@ app.use("/incoming-call", async (req, res) => {
 
         <Say> Hello, this is a real-time transcription demo. Please speak </Say>
         <Connect>
-            <Stream url="wss://${process.env.HOSTNAME}/media-stream/${CallSid}" />
+            <Stream url="wss://${HOSTNAME}/media-stream/${CallSid}" />
         </Connect>
       </Response>
       `);
