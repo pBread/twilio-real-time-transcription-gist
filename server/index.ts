@@ -1,7 +1,6 @@
 import dotenv from "dotenv-flow";
 import express from "express";
 import ExpressWs from "express-ws";
-import type { CallStatus } from "./twilio-types";
 
 dotenv.config();
 
@@ -43,7 +42,11 @@ app.use("/incoming-call", async (req, res) => {
 
 // phone number status callback webhook
 app.post("/call-status-update", async (req, res) => {
-  const status = req.body.CallStatus as CallStatus;
+  const status = req.body.CallStatus as
+    | "completed"
+    | "initializing"
+    | "started"
+    | "error";
 
   console.log(`/call-status-update ${status}`);
 
