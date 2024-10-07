@@ -51,6 +51,8 @@ app.post("/primary-handler-fails", async (req, res) => {
   res.status(200).send();
 });
 
+// a websocket is established simply to keep the call open
+// in a real implementation, you would connect the caller to an agent or whatever
 app.ws("/media-stream/:callSid", (ws) => {
   console.log("incoming websocket");
 
@@ -58,8 +60,7 @@ app.ws("/media-stream/:callSid", (ws) => {
     const msg = JSON.parse(data.toString());
 
     if (msg.event === "media") return;
-
-    console.log(msg.event);
+    console.log(`media stream event: ${msg.event}`);
   });
 });
 
