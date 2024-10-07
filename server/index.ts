@@ -1,8 +1,6 @@
 import dotenv from "dotenv-flow";
 import express from "express";
 import ExpressWs from "express-ws";
-import path from "path";
-import { generateSyncToken } from "./sync";
 import type { CallStatus } from "./twilio-types";
 
 dotenv.config();
@@ -12,9 +10,7 @@ const { HOSTNAME } = process.env;
 const { app } = ExpressWs(express());
 app.use(express.urlencoded({ extended: true })).use(express.json());
 
-/****************************************************
- Twilio Voice Webhooks
-****************************************************/
+// phone number incoming call webhook
 app.use("/incoming-call", async (req, res) => {
   console.log("/incoming-call", req.body);
   const CallSid = req.body.CallSid as string;
@@ -45,6 +41,7 @@ app.use("/incoming-call", async (req, res) => {
       `);
 });
 
+// phone number status callback webhook
 app.post("/call-status-update", async (req, res) => {
   const status = req.body.CallStatus as CallStatus;
 
@@ -53,8 +50,15 @@ app.post("/call-status-update", async (req, res) => {
   res.status(200).send();
 });
 
-// a websocket is established simply to keep the call open
-// in a real implementation, you would connect the caller to an agent or whatever
+// transcription event handler
+app.use(`/transcript-status-callback`, async (req, res) => {
+  console.log(`/transcript-status-callback`, req.body);
+
+  res.status(200).send();
+});
+
+// media stream handler
+// note: this is only here to keep the call open. in a real implementation, you would connect the caller to an agent or whatever
 app.ws("/media-stream/:callSid", (ws) => {
   console.log("incoming websocket");
 
@@ -66,33 +70,7 @@ app.ws("/media-stream/:callSid", (ws) => {
   });
 });
 
-/****************************************************
- Sync 
-****************************************************/
-app.use("/sync/:identity", async (req, res) => {
-  res.send(generateSyncToken(req.params.identity ?? "user"));
-});
-
-/****************************************************
- Serve UI
-****************************************************/
-app.use(express.static(path.join(__dirname, "../", "ui")));
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "ui", "index.html"));
-});
-
-/****************************************************
- Transcription Handler
-****************************************************/
-app.use(`/transcript-status-callback`, async (req, res) => {
-  console.log(`/transcript-status-callback`, req.body);
-
-  res.status(200).send();
-});
-
-/****************************************************
- Start Server
-****************************************************/
+// start
 const port = process.env.PORT || "3000";
 app.listen(port, () => {
   console.log(`server running on http://localhost:${port}`);
