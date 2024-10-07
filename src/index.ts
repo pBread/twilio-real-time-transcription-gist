@@ -51,7 +51,7 @@ app.post("/primary-handler-fails", async (req, res) => {
   res.status(200).send();
 });
 
-app.ws("/media-stream/:callSid", (ws, req) => {
+app.ws("/media-stream/:callSid", (ws) => {
   console.log("incoming websocket");
 
   ws.on("message", (data) => {
