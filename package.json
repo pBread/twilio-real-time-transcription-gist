@@ -1,0 +1,20 @@
+{
+  "author": "https://github.com/pBread",
+  "name": "twilio-real-time-transcription",
+  "scripts": {
+    "dev": ""
+  },
+  "version": "1.0.0",
+  "dependencies": {
+    "dotenv-flow": "^4.1.0",
+    "express": "^4.21.0",
+    "express-ws": "^5.0.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.4",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
+  }
+}
