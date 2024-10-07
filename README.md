@@ -8,7 +8,7 @@ This is the simplest possible implementation of Twilio [Real-Time Transcription]
 
 - [Twilio account](https://www.twilio.com/try-twilio) with a [phone number](https://help.twilio.com/articles/223135247-How-to-Search-for-and-Buy-a-Twilio-Phone-Number-from-Console)
 
-- [nGrok installed globally](https://ngrok.com/docs/getting-started/), if you want to run it locally
+- [nGrok installed globally](https://ngrok.com/docs/getting-started/)
 
 ### 1. Setup Project
 
