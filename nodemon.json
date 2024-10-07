@@ -1,6 +1,0 @@
-{
-  "exec": "ts-node server/index.ts",
-  "ext": "ts,json,js,html",
-  "ignore": ["node_modules", "**/*.spec.ts"],
-  "watch": ["server/**/*", "ui/**/*"]
-}

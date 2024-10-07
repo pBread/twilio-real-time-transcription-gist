@@ -2,6 +2,7 @@ import dotenv from "dotenv-flow";
 import express from "express";
 import ExpressWs from "express-ws";
 
+console.log("hello ");
 dotenv.config();
 
 const { HOSTNAME } = process.env;
