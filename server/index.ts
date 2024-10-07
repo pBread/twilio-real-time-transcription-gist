@@ -6,6 +6,8 @@ import type { CallStatus } from "./twilio-types";
 
 dotenv.config();
 
+const { HOSTNAME } = process.env;
+
 const { app } = ExpressWs(express());
 app.use(express.urlencoded({ extended: true })).use(express.json());
 
@@ -14,7 +16,6 @@ app.use(express.urlencoded({ extended: true })).use(express.json());
 ****************************************************/
 app.use("/incoming-call", async (req, res) => {
   console.log("/incoming-call", req.body);
-
   const CallSid = req.body.CallSid as string;
 
   res.status(200);
@@ -27,20 +28,36 @@ app.use("/incoming-call", async (req, res) => {
   res.end(`
       <Response>
         <Start>
-          <Transcription 
-            track="both_tracks" 
-            statusCallbackUrl="https://${process.env.HOSTNAME}/transcript-status-callback" 
-            name="real-time-transcript" 
+          <Transcription
+            track="both_tracks"
+            statusCallbackUrl="https://${process.env.HOSTNAME}/transcript-status-callback"
+            name="real-time-transcript"
             partialResults="true"
           />
         </Start>
-        
+
         <Say> Hello, this is a real-time transcription demo. Please speak </Say>
         <Connect>
             <Stream url="wss://${process.env.HOSTNAME}/media-stream/${CallSid}" />
         </Connect>
       </Response>
       `);
+});
+
+app.ws("/conversation-relay", (ws) => {
+  console.log("incoming websocket");
+
+  ws.on("message", (data) => {
+    const msg = JSON.parse(data.toString());
+
+    console.log(msg);
+  });
+});
+
+app.use("/connect-action", async (req, res) => {
+  console.log(`/connect-action `, req.body);
+
+  res.status(200).send();
 });
 
 // a websocket is established simply to keep the call open
