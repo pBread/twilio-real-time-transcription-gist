@@ -2,9 +2,9 @@
   "author": "https://github.com/pBread",
   "name": "twilio-real-time-transcription",
   "scripts": {
-    "dev": "nodemon server/index.ts",
+    "dev": "nodemon server.ts",
     "grok": "node scripts/ngrok.js",
-    "start": "ts-node server/index.ts"
+    "start": "ts-node server.ts"
   },
   "version": "1.0.0",
   "dependencies": {
