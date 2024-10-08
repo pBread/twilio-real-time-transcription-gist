@@ -1,3 +1,4 @@
+// docs: https://www.twilio.com/docs/voice/api/realtime-transcription-resource
 import dotenv from "dotenv-flow";
 import express from "express";
 import ExpressWs from "express-ws";
@@ -20,6 +21,8 @@ app.use("/incoming-call", async (req, res) => {
   // start transcription service
   // say hello
   // connect the call to a media stream so the call stays open
+
+  // docs: https://www.twilio.com/docs/voice/api/realtime-transcription-resource
 
   res.end(`
       <Response>
@@ -55,7 +58,8 @@ app.post("/call-status-update", async (req, res) => {
 
 // transcription event handler
 app.use(`/transcript-status-callback`, async (req, res) => {
-  console.log(`/transcript-status-callback`, req.body);
+  // payload schema: https://www.twilio.com/docs/voice/twiml/transcription
+  console.log(`/transcript-status-callback\n`, req.body);
 
   res.status(200).send();
 });
